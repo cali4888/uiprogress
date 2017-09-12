@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gosuri/uilive"
+	"github.com/nsf/termbox-go"
 )
 
 // Out is the default writer to render progress bars to
@@ -43,6 +44,17 @@ type Progress struct {
 func New() *Progress {
 	lw := uilive.New()
 	lw.Out = Out
+
+	err := termbox.Init()
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		w, _ := termbox.Size()
+		termbox.Close()
+		if w < Width {
+			Width = int((float32(w) * 0.7))
+		}
+	}
 
 	return &Progress{
 		Width:           Width,
