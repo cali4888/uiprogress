@@ -51,8 +51,10 @@ func New() *Progress {
 	} else {
 		w, _ := termbox.Size()
 		termbox.Close()
-		if w < Width {
-			Width = int((float32(w) * 0.7))
+
+		acceptableWidth := int((float32(w) * 0.7))
+		if acceptableWidth < Width {
+			Width = acceptableWidth
 		}
 	}
 
